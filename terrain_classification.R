@@ -40,9 +40,16 @@ s.r <- as.data.frame(sampleRegular(s, 10000))
 # clara() function: need to remove NA from training set
 s.r <- na.omit(s.r)
 
+# from :
+# list with silhouette width information for the best sample, see partition.object.
+#
+# https://stat.ethz.ch/R-manual/R-devel/library/cluster/html/partition.object.html
+# https://stat.ethz.ch/R-manual/R-devel/library/cluster/html/clara.object.html
+
 ncl <- numeric(8)
 for (i in 2:9) ncl[i] <- clara(s.r,stand=TRUE,k=i)$ silinfo $ avg.width
 plot(2:10,ncl,type="b")
+
 
 s.clara <- clara(s.r, stand=TRUE, k=6)
 s.r$cluster <- factor(s.clara$clustering)
