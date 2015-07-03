@@ -4,7 +4,8 @@ library(raster)
 library(cluster)
 library(randomForest)
 
-
+# change the path to where GRASS is installed on the system
+#
 loc <- initGRASS("/home/epilib/Envs/env1/grass-7.1.svn", home=tempdir())
 execGRASS('g.proj',epsg=as.integer(32633), location='utm_wgs84_33N')
 execGRASS('g.mapset', mapset='PERMANENT', location='utm_wgs84_33N')
