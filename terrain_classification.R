@@ -11,13 +11,11 @@ execGRASS('g.mapset', mapset='PERMANENT', location='utm_wgs84_33N')
 
 # run only once ...
 ## create a raster for use in grass
-execGRASS('r.in.gdal', input="bathy20_1.tif",
-          flags=c('overwrite','o','e'), output='elev')     # o= override the prjection parameters, and e=extend the location
-
-
+#execGRASS('r.in.gdal', input="bathy20_1.tif",
+#          flags=c('overwrite','o','e'), output='elev')     # o= override the prjection parameters, and e=extend the location
 
 ## set the region to the extent of the file
-execGRASS('g.region', raster='elev', res='20', flags=c('a','p'))    # align cells with region extent
+#execGRASS('g.region', raster='elev', res='20', flags=c('a','p'))    # align cells with region extent
 
 # NOTE:
 # bathy20_1 is a large raster. 
@@ -25,9 +23,8 @@ execGRASS('g.region', raster='elev', res='20', flags=c('a','p'))    # align cell
 # once happy with the results on a sub-dataset run the analysis on the full dataset
 # this 2 lines will generate a sub-datset "minielev" with small extent and same resolution :
 
-# execGRASS('g.region', raster='elev', res='20', w='580000',e='625000',s='7770000',n='7840000', flags=c('a','p')) 
-# execGRASS('r.mapcalc', expression = 'minielev=elev', flags='overwrite') 
-
+execGRASS('g.region', raster='elev', res='20', w='580000',e='625000',s='7770000',n='7840000', flags=c('a','p')) 
+execGRASS('r.mapcalc', expression = 'minielev=elev', flags='overwrite') 
 
 source('morphoclara.R')
 s <- morphoclara(elevation='minielev', remove=TRUE)
@@ -49,7 +46,6 @@ s.r <- na.omit(s.r)
 ncl <- numeric(8)
 for (i in 2:9) ncl[i] <- clara(s.r,stand=TRUE,k=i)$ silinfo $ avg.width
 plot(2:10,ncl,type="b")
-
 
 s.clara <- clara(s.r, stand=TRUE, k=6)
 s.r$cluster <- factor(s.clara$clustering)
